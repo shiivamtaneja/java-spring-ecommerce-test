@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("api/v1/orders")
+@RequestMapping("api/v1/order")
 public class OrderController {
     private final OrderService orderService;
 
@@ -31,16 +31,19 @@ public class OrderController {
         }
     }
 
+    record ProductId(Integer product_id) {
+    }
+
     @PostMapping
-    public ResponseEntity<ApiResponse<Orders>> createOrder(@RequestBody Orders orderRequest) {
-        Orders order = orderService.createOrder(orderRequest);
+    public ResponseEntity<ApiResponse<Orders>> createOrder(@RequestBody ProductId orderRequest) {
+        Orders order = orderService.createOrder(orderRequest.product_id);
 
         ApiResponse<Orders> response = new ApiResponse<>(HttpStatus.CREATED.value(), "Order created", order);
 
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    static record UpdatedStatus(String status) {
+    record UpdatedStatus(String status) {
     }
 
     @PutMapping("/{id}")
