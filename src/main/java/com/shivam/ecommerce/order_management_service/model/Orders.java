@@ -14,7 +14,8 @@ public class Orders {
 
     private String orderFor;
     private Double amount;
-    private List<Integer> productIds;
+
+    private Integer productId;
 
     private LocalDateTime orderDate;
     private String status;
@@ -73,5 +74,13 @@ public class Orders {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Integer getProductId() {
+        return productId;
+    }
+
+    public void setProductId(Integer productId) {
+        this.productId = productId;
     }
 }
