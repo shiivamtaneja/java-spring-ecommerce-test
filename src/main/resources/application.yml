@@ -1,9 +1,9 @@
 server:
-  port: 8080
+  port: 8081
 
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5332/product_catalog
+    url: jdbc:postgresql://localhost:5333/product_catalog
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
 
