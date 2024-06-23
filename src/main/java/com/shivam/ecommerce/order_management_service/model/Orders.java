@@ -3,9 +3,10 @@ package com.shivam.ecommerce.order_management_service.model;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
-public class OrderModel {
+public class Orders {
     @Id
     @SequenceGenerator(name = "order_id_sequence", sequenceName = "order_id_sequence", allocationSize = 1)
     @GeneratedValue(generator = "order_id_sequence", strategy = GenerationType.SEQUENCE)
@@ -13,11 +14,12 @@ public class OrderModel {
 
     private String orderFor;
     private Double amount;
+    private List<Integer> productIds;
 
     private LocalDateTime orderDate;
     private String status;
 
-    public OrderModel(Integer id, String orderFor, Double amount, LocalDateTime orderDate, String status) {
+    public Orders(Integer id, String orderFor, Double amount, LocalDateTime orderDate, String status) {
         this.id = id;
         this.orderFor = orderFor;
         this.amount = amount;
@@ -25,7 +27,7 @@ public class OrderModel {
         this.status = status;
     }
 
-    public OrderModel() {
+    public Orders() {
     }
 
     @PrePersist
@@ -62,7 +64,7 @@ public class OrderModel {
     }
 
     public void setOrderDate(LocalDateTime orderDate) {
-        this.orderDate = LocalDateTime.now();
+        this.orderDate = orderDate;
     }
 
     public String getStatus() {

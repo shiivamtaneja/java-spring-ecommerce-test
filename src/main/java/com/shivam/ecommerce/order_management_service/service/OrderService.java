@@ -1,6 +1,6 @@
 package com.shivam.ecommerce.order_management_service.service;
 
-import com.shivam.ecommerce.order_management_service.model.OrderModel;
+import com.shivam.ecommerce.order_management_service.model.Orders;
 import com.shivam.ecommerce.order_management_service.repository.OrderRepository;
 import org.springframework.stereotype.Service;
 
@@ -14,21 +14,21 @@ public class OrderService {
         this.orderRepository = orderRepository;
     }
 
-    public OrderModel getOrderDetails(Integer id) {
-        Optional<OrderModel> order = orderRepository.findById(id);
+    public Orders getOrderDetails(Integer id) {
+        Optional<Orders> order = orderRepository.findById(id);
 
         return order.orElse(null);
     }
 
-    public OrderModel createOrder(OrderModel orderRequest) {
+    public Orders createOrder(Orders orderRequest) {
         return orderRepository.save(orderRequest);
     }
 
-    public OrderModel updateOrder(Integer id, String newStatus) {
-        Optional<OrderModel> order = orderRepository.findById(id);
+    public Orders updateOrder(Integer id, String newStatus) {
+        Optional<Orders> order = orderRepository.findById(id);
 
         if (order.isPresent()) {
-            OrderModel newOrder = order.get();
+            Orders newOrder = order.get();
 
             newOrder.setStatus(newStatus);
 
@@ -39,7 +39,7 @@ public class OrderService {
     }
 
     public boolean deleteOrder(Integer id) {
-        Optional<OrderModel> order = orderRepository.findById(id);
+        Optional<Orders> order = orderRepository.findById(id);
 
         if (order.isPresent()) {
             orderRepository.deleteById(id);

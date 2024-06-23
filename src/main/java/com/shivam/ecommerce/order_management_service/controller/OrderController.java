@@ -1,7 +1,7 @@
 package com.shivam.ecommerce.order_management_service.controller;
 
 import com.shivam.ecommerce.order_management_service.model.ApiResponse;
-import com.shivam.ecommerce.order_management_service.model.OrderModel;
+import com.shivam.ecommerce.order_management_service.model.Orders;
 import com.shivam.ecommerce.order_management_service.service.OrderService;
 
 import org.springframework.http.HttpStatus;
@@ -18,39 +18,40 @@ public class OrderController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<OrderModel>> getOrderDetails(@PathVariable Integer id) {
-        OrderModel order = orderService.getOrderDetails(id);
+    public ResponseEntity<ApiResponse<Orders>> getOrderDetails(@PathVariable Integer id) {
+        Orders order = orderService.getOrderDetails(id);
         if (order != null) {
-            ApiResponse<OrderModel> response = new ApiResponse<>(HttpStatus.OK.value(), "Order found", order);
+            ApiResponse<Orders> response = new ApiResponse<>(HttpStatus.OK.value(), "Order found", order);
 
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
-            ApiResponse<OrderModel> response = new ApiResponse<>(HttpStatus.NOT_FOUND.value(), "Order not found", null);
+            ApiResponse<Orders> response = new ApiResponse<>(HttpStatus.NOT_FOUND.value(), "Order not found", null);
 
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponse<OrderModel>> createOrder(@RequestBody OrderModel orderRequest) {
-        OrderModel order = orderService.createOrder(orderRequest);
+    public ResponseEntity<ApiResponse<Orders>> createOrder(@RequestBody Orders orderRequest) {
+        Orders order = orderService.createOrder(orderRequest);
 
-        ApiResponse<OrderModel> response = new ApiResponse<>(HttpStatus.CREATED.value(), "Order created", order);
+        ApiResponse<Orders> response = new ApiResponse<>(HttpStatus.CREATED.value(), "Order created", order);
 
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
-    static record UpdatedStatus(String status){}
+    static record UpdatedStatus(String status) {
+    }
 
     @PutMapping("/{id}")
-    public ResponseEntity<ApiResponse<OrderModel>> updateOrderDetails(@PathVariable Integer id, @RequestBody UpdatedStatus updatedStatus) {
-        OrderModel order = orderService.updateOrder(id, updatedStatus.status());
+    public ResponseEntity<ApiResponse<Orders>> updateOrderDetails(@PathVariable Integer id, @RequestBody UpdatedStatus updatedStatus) {
+        Orders order = orderService.updateOrder(id, updatedStatus.status());
         if (order != null) {
-            ApiResponse<OrderModel> response = new ApiResponse<>(HttpStatus.OK.value(), "Order updated successfully", order);
+            ApiResponse<Orders> response = new ApiResponse<>(HttpStatus.OK.value(), "Order updated successfully", order);
 
             return new ResponseEntity<>(response, HttpStatus.OK);
         } else {
-            ApiResponse<OrderModel> response = new ApiResponse<>(HttpStatus.NOT_FOUND.value(), "Order not found", null);
+            ApiResponse<Orders> response = new ApiResponse<>(HttpStatus.NOT_FOUND.value(), "Order not found", null);
 
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
