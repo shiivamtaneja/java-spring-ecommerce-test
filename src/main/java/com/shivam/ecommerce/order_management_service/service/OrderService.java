@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -20,6 +21,10 @@ public class OrderService {
     public OrderService(OrderRepository orderRepository, ProductInterface productInterface) {
         this.orderRepository = orderRepository;
         this.productInterface = productInterface;
+    }
+
+    public List<Orders> getAllOrderDetails() {
+        return orderRepository.findAll();
     }
 
     public Orders getOrderDetails(Integer id) {
@@ -46,7 +51,7 @@ public class OrderService {
                 return orderRepository.save(orderReq);
             }
         } else {
-            System.out.println("Nahi milaa");
+            System.out.println("No product found!");
         }
 
         return null;
