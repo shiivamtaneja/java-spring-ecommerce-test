@@ -2,6 +2,7 @@ package com.shivam.ecommerce.product_catalog_service.service;
 
 import com.shivam.ecommerce.product_catalog_service.model.Product;
 import com.shivam.ecommerce.product_catalog_service.repository.ProductRepository;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,7 +17,7 @@ public class ProductService {
     }
 
     public List<Product> getAllProducts() {
-        return productRepository.findAll();
+        return productRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
     }
 
     public Product getProductById(Integer id) {
