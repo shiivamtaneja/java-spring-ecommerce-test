@@ -1,0 +1,32 @@
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: "http://localhost:3000"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+            allowedHeaders:
+              - "*"
+            allowCredentials: true
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: order-management-service
+          uri: lb://order-management-service
+          predicates:
+            - Path=/api/v1/order/**
+        - id: product-catalog-service
+          uri: lb://product-catalog-service
+          predicates:
+            - Path=/api/v1/product/**
+
+server:
+  port: 8765
