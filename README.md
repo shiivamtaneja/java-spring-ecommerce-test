@@ -23,7 +23,7 @@ This README includes the instruction to clone only the `frontend` branch of the 
   ```bash
     git clone --branch frontend --single-branch https://github.com/shiivamtaneja/java-spring-ecommerce-test.git
 
-cd java-spring-ecommerce-test
+    cd java-spring-ecommerce-test
   ```
 2. Install the dependencies:
   ```bash
