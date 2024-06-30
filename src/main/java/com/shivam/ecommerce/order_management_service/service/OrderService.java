@@ -5,6 +5,7 @@ import com.shivam.ecommerce.order_management_service.model.ApiResponse;
 import com.shivam.ecommerce.order_management_service.model.Orders;
 import com.shivam.ecommerce.order_management_service.model.Product;
 import com.shivam.ecommerce.order_management_service.repository.OrderRepository;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -24,7 +25,7 @@ public class OrderService {
     }
 
     public List<Orders> getAllOrderDetails() {
-        return orderRepository.findAll();
+        return orderRepository.findAll(Sort.by(Sort.Direction.ASC, "id"));
     }
 
     public Orders getOrderDetails(Integer id) {
