@@ -1,0 +1,24 @@
+spring:
+  application:
+    name: user-auth-service
+
+  datasource:
+    url: jdbc:postgresql://localhost:5331/user_auth
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: 'create-drop'
+
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+  security:
+    user:
+      password: test@123
+server:
+  port: 8082
