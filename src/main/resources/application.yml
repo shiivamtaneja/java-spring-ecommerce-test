@@ -20,5 +20,10 @@ spring:
   security:
     user:
       password: test@123
+
+#  cloud:
+#    compatibility-verifier:
+#      enabled: false
+
 server:
   port: 8082
