@@ -20,3 +20,8 @@ spring:
     name: product-catalog-service
   main:
     web-application-type: SERVLET
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
