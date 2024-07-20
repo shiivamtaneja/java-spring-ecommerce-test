@@ -83,7 +83,11 @@ public class OrderService {
             }
 
         } catch (FeignException e) {
-            throw new NotFoundException("Product not found with id: " + id);
+            if (e.status() == HttpStatus.NOT_FOUND.value()) {
+                throw new NotFoundException("Product not found with id: " + id);
+            }
+
+            throw e;
         }
 
         return null;

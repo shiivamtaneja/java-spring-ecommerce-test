@@ -5,6 +5,9 @@ import com.shivam.ecommerce.order_management_service.model.ApiResponse;
 import com.shivam.ecommerce.order_management_service.model.Orders;
 import com.shivam.ecommerce.order_management_service.service.OrderService;
 
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("api/v1/order")
 public class OrderController {
+    private static final Logger log = LoggerFactory.getLogger(OrderController.class);
     private final OrderService orderService; // Service layer for handling order operations
 
     // Constructor injection for OrderService
@@ -67,11 +71,31 @@ public class OrderController {
      * @return A ResponseEntity containing an ApiResponse with the created order and HTTP status 201 (Created).
      */
     @PostMapping
+    @CircuitBreaker(name = "productService", fallbackMethod = "createOrderFallback")
     public ResponseEntity<ApiResponse<Orders>> createOrder(@RequestBody ProductId orderRequest) {
         Orders order = orderService.createOrder(orderRequest.product_id);
 
         ApiResponse<Orders> response = new ApiResponse<>(HttpStatus.CREATED.value(), "Order created", order);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
+
+    /**
+     * Fallback method for createOrder.
+     *
+     * @param orderRequest The request body containing the product ID to create an order.
+     * @param throwable The exception that caused the fallback.
+     * @return A ResponseEntity containing an ApiResponse indicating the failure.
+     * @throws NotFoundException if the cause of the fallback is a NotFoundException
+     */
+    public ResponseEntity<ApiResponse<Orders>> createOrderFallback(ProductId orderRequest, Throwable throwable) {
+        if (throwable instanceof NotFoundException) {
+            throw (NotFoundException) throwable;
+        }
+
+        log.error("Fallback triggered due to: {}", throwable.toString());
+
+        ApiResponse<Orders> response = new ApiResponse<>(HttpStatus.SERVICE_UNAVAILABLE.value(), "Product service is currently unavailable. Please try again later.", null);
+        return new ResponseEntity<>(response, HttpStatus.SERVICE_UNAVAILABLE);
     }
 
     /**
