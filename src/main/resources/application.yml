@@ -34,6 +34,9 @@ resilience4j:
         slidingWindowType: COUNT_BASED
 
 management:
+  tracing:
+    sampling:
+      probability: 1.0
   health:
     circuitbreakers:
       enabled: true
