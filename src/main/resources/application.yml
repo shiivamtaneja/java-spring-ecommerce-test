@@ -43,7 +43,7 @@ management:
   endpoints:
     web:
       exposure:
-        include: health, circuitbreakers
+        include: "*"
   endpoint:
     health:
       show-details: always
